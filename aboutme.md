@@ -1,16 +1,14 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle: Welcome to my Personal Website.
 ---
 
-My name is Inigo Montoya. I have the following qualities:
-
-- I rock a great mustache
-- I'm extremely loyal to my family
-
-What else do you need?
+**Wonjeong Choi**
+Ph.D. Candidate, School of Electrical Engineering (EE), KAIST
+Research Interest: Trustworthy AI & Transfer Learning (for LLMs, MLLMs)
+E-mail: dnjswjd5457 (at) kaist.ac.kr
 
 ### My story
+I am a Ph.D. student in KAIST EE, under the supervision of Prof. Jaekyun Moon (in MoonLab). Our laboratory has been studying in a wide range of research topics on hardware-friendly and robust machine learning algorithms. My own research emphasizes on how to develop Trustworthy AI systems for safety-critical applications such as automotive, medical diagnosis, and manufactorying systems. Also, my recent interests involve Transfer Learning of large foundation models (e.g., LLMs, MLLMs) to specific domains, considering its robustness and resource-efficiency for low-data and hardware-complexity constrained applications. 
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](https://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
