@@ -21,11 +21,12 @@ author: Choi
 
 navbar-links:
   About Me: "aboutme"
+  Publications: "aboutme"
+  # Author's home: "https://deanattali.com"
+  Projects: "aboutme"
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
-  # Author's home: "https://deanattali.com"
-  Projects: "aboutme"
 
 ################
 # --- Logo --- #
