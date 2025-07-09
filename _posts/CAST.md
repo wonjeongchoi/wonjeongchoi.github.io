@@ -1,0 +1,259 @@
+---
+layout: post
+title: (Paper Review) Programming Refusal with Conditional Activation Steering
+subtitle: ICLR 2025 Spotlight
+tags: [Paper Review, LLM Safety, Large Language Models (LLMs), Activation Steering, Refusal]
+comments: true
+mathjax: true
+---
+
+
+## 0\. 논문 정보
+
+-   **제목**: Programming Refusal with Conditional Activation Steering
+-   **학회**: ICLR 2025 Spotlight
+-   **핵심 키워드**: Activation Steering, Refusal, LLM Safety, Conditional Control
+
+---
+
+## 1\. Key Idea
+
+<img width="1240" height="456" alt="Image" src="https://github.com/user-attachments/assets/c642838b-ff34-497c-b402-d9b36029ac71" /><br>
+
+기존의 **Activation Steering**은 프롬프트와 무관하게 특정 행동(예: 거부)을 강제하여, **모든 입력에 대해 일관되게 거부하는 부작용**이 존재함 (Figure 1 참고). 이 논문은 이를 해결하고자, **입력 문맥에 따라 선택적으로 거부를 실행하는 방법**인 **CAST (Conditional Activation Steering)** 를 제안함. 논문의 Key Insight는 다음과 같음: 추론 과정에서 서로 다른 context를 가진 프롬프트는 서로 다른 hidden state 패턴을 activate하기 때문에 이를 활용하여 **conditional vector**를 구성할 수 있고, 이를 통해 입력 문맥의 카테고리를 구분하여 선택적으로 activation steering을 적용한다.
+
+> “In this paper, we propose Conditional Activation Steering (CAST), which analyzes LLM activation patterns during inference to selectively apply or withhold activation steering based on the input context.”  
+> _본 논문은 LLM의 은닉 활성 패턴을 분석하여, 입력 문맥에 따라 거부 방향을 선택적으로 적용하거나 적용하지 않는 CAST 기법을 제안한다._
+
+---
+
+## 2\. Method
+
+CAST는 크게 다음의 두 가지 벡터를 활용하여 동작함.
+
+#### (1) **행동 벡터 (Behavior vector, $\\mathbf{v}$)**
+
+-   특정 행동을 유발하기 위한 벡터로, 논문에서는 주로 **거부(refusal)**를 유발하기 위한 벡터로 사용됨.
+-   이는 기존 Activation Steering의 방식과 동일하게 은닉 상태에 더해져 특정 행동을 강제함.
+
+다음과 같은 수식으로 표현됨.
+
+$$  
+\\mathbf{h}' = \\mathbf{h} + \\alpha \\mathbf{v}  
+$$
+
+여기서:
+
+-   $\\mathbf{h}$: 원래의 은닉 상태 벡터
+-   $\\mathbf{v}$: 행동을 유발하는 벡터 (예: 거부 벡터)
+-   $\\alpha$: 행동 벡터의 영향력을 결정하는 스칼라 계수
+-   $\\mathbf{h}'$: 변경된 은닉 상태 벡터
+
+#### (2) **조건 벡터 (Condition vector, $\\mathbf{c}$)**
+
+-   **조건 벡터**는 특정 입력 문맥(예: 유해한 문맥)을 감지하기 위해 사용됨.
+-   조건 벡터를 통해 입력된 프롬프트가 특정 조건을 충족하는지를 판단하고, 조건이 충족될 때만 위의 행동 벡터를 은닉 상태에 추가하도록 만듦.
+
+이때, **조건 함수 $f(\\mathbf{h})$**는 다음과 같이 정의됨.
+
+$$  
+f(\\mathbf{h}) = \\mathbf{1}\\left\[\\cos(\\mathbf{h}, \\text{proj}\_{c} \\mathbf{h} ) > \\theta \\right\]  
+$$
+
+여기서:
+
+-   $\\cos(\\mathbf{h}, \\text{proj}\_{c} \\mathbf{h})$: 프롬프트의 은닉 상태 벡터 $\\mathbf{h}$와, $\\mathbf{h}$을 조건 벡터 $\\mathbf{c}$에 대해 projection한 벡터 간의 코사인 유사도
+-   $\\theta$: 조건 충족 여부를 결정하는 임계값 (threshold)
+-   $\\mathbf{1}\[\\cdot\]$: 조건이 참이면 1, 거짓이면 0을 출력하는 indicator 함수
+
+최종적으로 **행동 벡터**가 적용되는 조건부 은닉 상태는 아래 수식과 같이 표현됨.
+
+$$  
+\\mathbf{h}' = \\mathbf{h} + f(\\text{sim}( \\mathbf{h}, \\text{proj}\_{c} \\mathbf{h} ) ) \\cdot \\alpha \\mathbf{v}  
+$$
+
+즉, 조건 함수가 1일 때만 행동 벡터가 더해지고, 조건이 충족되지 않으면(0이면) 원본 상태를 그대로 유지함. (이후 설명에서는 proj 표현을 생략.)
+
+#### \# **조건 벡터 및 행동 벡터의 추출 과정**
+
+<img width="799" height="492" alt="Image" src="https://github.com/user-attachments/assets/b9a01ca2-7c21-421f-b5f2-1eb692de7526" /><br>
+
+논문에서는 조건 벡터와 행동 벡터를 추출하는 방법으로 다음과 같은 과정을 사용함.
+
+**벡터 추출 방법:**
+
+1.  **긍정 집합($D^+$)과 부정 집합($D^-$) 구성**:
+    -   조건 벡터의 경우, 긍정 집합은 특정 조건(유해함 등)을 만족하는 프롬프트, 부정 집합은 조건을 만족하지 않는 프롬프트로 구성됨.
+2.  **은닉 상태 차이 계산**:
+    -   프롬프트들을 모델에 입력하여 레이어 별 은닉 상태를 얻고, 긍정-부정 쌍 간의 은닉 상태 차이를 계산함.
+    -   차이 벡터들을 수집하여 평균을 낸 후 PCA를 적용함.
+3.  **PCA를 통한 주요 벡터 추출**:
+    -   얻어진 차이 벡터들에 PCA(주성분 분석)를 적용하여 첫 번째 주성분(PC1)을 벡터로 사용함.
+    -   이렇게 얻은 벡터가 조건 벡터 혹은 행동 벡터로 사용됨.
+4.  **레이어와 임계값 선택 (튜닝)**:
+    -   벡터를 적용할 레이어와 조건 함수에서 사용할 임계값($\\theta$), 비교 부등호 방향(>, <) 등 하이퍼파라미터는 그리드 서치를 통해 최적의 성능을 내는 값을 찾음.
+    -   이때, LLM의 각 레이어는 동일한 조건(예: 유해성)을 서로 다른 방향으로 표현할 수 있음. 따라서, 특정 레이어에서 조건 충족을 나타내는 코사인 유사도 임계값 비교가 $θ>$ 였던 것이, 다른 레이어에서는 반대로 $θ<$ 가 될 수도 있음.
+
+#### \# **논리 연산을 이용한 복합 조건 구성 (Logical Composition)**
+
+CAST는 여러 조건 벡터를 논리 연산을 통해 결합하여 복합 조건을 구성할 수 있음.
+
+예를 들어, 성적인 내용(condition 1)이나 범죄적 내용(condition 2)을 모두 거부하는 조건 함수는 다음과 같이 표현할 수 있음.
+
+$$ f(\\mathbf{h}) = \\mathbf{1} \\left\[ \\cos(\\mathbf{h}, \\mathbf{c}\_1) > \\theta \\ \\lor \\ \\cos(\\mathbf{h},\\mathbf{c}\_2) > \\theta \\right\] $$
+
+또한 법률적인 내용만 허용하고 나머지는 거부하는 조건은 다음과 같이 표현됨.
+
+$$  
+f(\\mathbf{h}) = \\mathbf{1}\\left\[\\cos(\\mathbf{h}, \\mathbf{c}\_{\\text{legal}}) < \\theta\\right\]  
+$$
+
+이처럼 조건 벡터를 논리적으로 조합함으로써 복잡한 정책 기반의 제어를 재학습 없이 수행할 수 있음.
+
+#### \# **주요 특징 및 장점**
+
+<img width="1234" height="610" alt="Image" src="https://github.com/user-attachments/assets/caf19b9c-3b54-4132-ad85-2a6bffa81216" /><br>
+
+-   **Selective Refusal**: 유해 프롬프트만 선택적으로 차단하고 무해 프롬프트는 거의 영향을 주지 않음으로써 정확한 거부 행동을 유도함.
+-   **Logical Composition**: 조건 벡터 간 논리 연산(OR, NOT 등)을 지원하여 정교한 제어가 가능함.
+-   **Modulation & Duality**: 조건 충족 임계값 $\\theta$를 조정하여 민감도를 조절하거나 비교 연산자를 바꿔 보완 조건에 대한 효과도 쉽게 구현 가능함.
+-   **효율성**: 추가적인 모델 파인튜닝 없이, 비교적 적은 리소스로 즉시 적용 가능함.
+
+---
+
+## 3\. Conditional Refusal: Selectively Steering on Harmful Prompts
+
+### 🔹 실험 목적
+
+-   제안된 CAST(Conditional Activation Steering)가 유해(harmful) 프롬프트만 선택적으로 거부하고, 무해(harmless) 프롬프트는 정상 응답할 수 있는지 검증.
+-   조건부 활성화 스티어링을 통한 모델의 내부 활성 상태에서의 실시간 제어 가능성을 입증하고 주요 특성 탐구.
+
+### 🔹 실험 구성 및 방법
+
+-   **대조 데이터셋**(Contrast Dataset) 구성:
+    -   유해 데이터셋($D^+\_{\\text{harmful}}$): SorryBench 기반 45개 카테고리에서 각 90개씩 총 4,050개 프롬프트 생성
+    -   무해 데이터셋($D^-\_{\\text{harmless}}$): 위의 유해 프롬프트 개수에 맞춰 Alpaca 데이터셋에서 무작위 샘플링한 4,050개 프롬프트 구성
+-   **조건 벡터($\\mathbf{c}\_{\\text{harmful}}$) 추출**:
+    -   위의 대조 데이터셋을 활용하여 유해/무해 구분 가능한 조건 벡터 추출
+    -   그리드 서치를 통해 최적의 **임계값($\\theta$)**, **레이어($l$)**, **비교 방향(> 또는 <)**을 설정
+    -   예시: 실험에서 레이어 7, 비교방향 `<`, 임계값 $\\theta = 0.048$일 때 최적 결과 확인 (Figure 4d 참고)
+
+### 🔹 주요 실험 결과
+
+<img width="1226" height="434" alt="Image" src="https://github.com/user-attachments/assets/6ad0e039-1e69-401c-93f3-0c99a8a7bf5e" /><br>
+
+-   **테스트 데이터셋**:
+    -   SorryBench(유해) 450개, Alpaca(무해) 500개를 추가로 준비하여 평가 진행
+-   **주요 관찰**:
+    -   CAST를 적용 시, 모든 7개 모델에서 **유해 프롬프트 거부율은 크게 증가**, **무해 프롬프트의 거부율은 거의 변화 없음**
+    -   무차별적 Activation Steering은 모든 프롬프트에 대해 거부율을 높인 반면, CAST는 **선택적 거부 행동**을 명확히 보임 (Table 2, Figure 1 참조)
+    -   프롬프트 공간을 명확히 두 클래스로 구분하는 효과가 나타남 (Figure 4a-c의 T-SNE 시각화)
+
+### 🔹 주요 특성 및 분석 결과
+
+<img width="1115" height="475" alt="Image" src="https://github.com/user-attachments/assets/7d764258-e955-4706-8993-9409fe7ed4bf" /><br>
+
+-   **Duality (보완성)**:
+    -   비교 연산자(`>` ↔ `<`)를 뒤집으면 조건이 적용되는 집합이 정확히 보완(complementary)됨.
+    -   즉, 유해 프롬프트가 아닌 무해 프롬프트를 선택적으로 거부하는 등 반대 상황을 쉽게 설정 가능 (Figure 5d).
+-   **Modulation (조정성)**:
+    -   임계값($\\theta$)을 변경하여 거부 민감도를 유연하게 조정 가능.
+    -   임계값을 낮추면 더 좁은 범위의 활성 상태만 조건에 걸리고, 높이면 더 넓은 범위를 포괄 가능 (Figure 5a-c).
+-   **Saturation (포화 특성):**
+    -   조건 벡터의 학습 데이터 양이 늘어나면 성능이 선형적으로 증가하지 않고 일정 수준에서 빠르게 포화됨.
+    -   이는 조건부 스티어링이 데이터의 양보다는 **모델이 가진 내부 표현력과 데이터의 질에 더 민감**하다는 것을 의미 (Figure 6a).
+    -   "Performance appears more dependent on the model’s inherent capacity to represent certain concepts and how well the chosen data instances represent the target concept rather than on the sheer volume of conditioning data."
+    -   **Linear Time Scaling (선형 시간 확장성)**: 조건 벡터 추출 과정에서 소요되는 시간은 데이터 수에 대해 선형적으로 증가하는 특성을 보임 (Figure 6b).
+
+---
+
+## 4\. Programmed Refusal: Logical Composition of Condition Vector
+
+본 섹션에서는 **CAST (Conditional Activation Steering)** 를 활용하여 유해성이라는 광범위한 개념을 넘어 더 세부적이고 구체적인 거부 조건을 설정할 수 있음을 보임. 특히, **조건 벡터(condition vector)** 를 논리적으로 결합해 원하는 조건을 정확하게 프로그래밍하여 모델의 행동을 정밀하게 제어할 수 있음을 실험적으로 입증함.
+
+### 🔹 주요 목표 및 실험적 설정
+
+본 실험에서는 다음과 같은 5가지 세부 카테고리의 조건 벡터를 생성하여 실험함:
+
+-   증오 표현(hate speech)
+-   법률적 의견(legal opinion)
+-   성적 내용(sexual context)
+-   건강 상담(health consultation)
+-   범죄 계획(crime planning)
+
+이를 통해 아래 두 가지 핵심 기능을 확인함:
+
+1.  **특정 조건(category)** 에서만 선택적으로 거부 행동을 추가하거나 제거할 수 있음을 보임.
+2.  여러 조건 벡터를 논리적으로 조합(OR, NOT 등)하여 **복합적이고 세밀한 조건**을 프로그래밍할 수 있음을 보임.
+
+### 🔹 데이터셋 구성
+
+-   Alpaca 데이터셋에서 무작위로 1,300개의 기본 프롬프트(base prompt)를 선택함.
+-   각 기본 프롬프트를 증오, 법률, 성적, 건강, 범죄의 5개 카테고리에 맞추어 변형하여 총 6개의 카테고리(기본+5가지 변형)를 구성함.
+-   각 카테고리마다 1,300개의 프롬프트를 준비하고, 이를 다시 훈련용(각 카테고리별 700개)과 테스트용(각 카테고리별 500개)으로 나누어 사용함.
+-   조건 벡터를 학습할 때, 특정 카테고리의 조건 벡터를 추출하려면 해당 카테고리의 훈련 데이터(700개)를 긍정 데이터(D+)로 사용하고, 다른 5개 카테고리의 훈련 데이터를 부정 데이터(D−, 총 3,500개)로 사용하여 대조 학습함.
+
+### 🔹 실험 결과 및 주요 관찰
+
+✅ 특정 카테고리에 대한 선택적 거부 추가 및 제거 가능성
+
+<img width="1220" height="319" alt="Image" src="https://github.com/user-attachments/assets/1dd14bdf-a059-4342-8c4b-045f456de206" /><br>
+
+-   특정 카테고리에 대해서만 선택적으로 거부(refusal) 행동을 **추가하거나 제거**할 수 있음을 확인함 (Figure 7).
+-   **행동 벡터(behavior vector, v\_refusal)** 의 부호를 반전시켜서 이미 존재하는 거부 행동을 제거할 수 있음을 보임.
+-   이는 단순히 거부를 추가하는 것뿐 아니라, **기존 모델의 원하지 않는 거부 행동을 선택적으로 억제할 수 있다는 점**에서 유용함을 입증함.
+
+> “We can also remove refusal behavior from certain classes of prompts. This is achieved by simply reversing the signs of the behavior vector v\_refusal.”  
+> → (특정 클래스의 프롬프트에서 거부 행동을 제거하는 것도 가능하며, 이는 행동 벡터의 부호를 반전시키는 방식으로 이루어짐.)
+
+✅ 조건 벡터의 논리적 조합(logical composition)
+
+<img width="1215" height="500" alt="Image" src="https://github.com/user-attachments/assets/8d2fa787-2d08-4c19-9e07-5b027132f610" /><br>
+
+-   여러 개의 조건 벡터를 OR(∨) 연산으로 조합하여, 보다 복잡한 거부 조건을 형성할 수 있음을 확인함 (Figure 8 참고).
+-   예를 들어, 증오 표현(c\_hate)과 법률 의견(c\_legal) 조건 벡터를 OR로 결합하여 "증오 표현 또는 법률 의견 프롬프트에서만 거부 행동"이라는 복합 조건을 쉽게 구성할 수 있음을 보임.
+
+$$  
+f(\\mathbf{h}) = \\mathbf{1}\\left\[ \\cos(\\mathbf{h}, \\mathbf{c}\_{\\text{hate}}) > \\theta \\lor \\cos(\\mathbf{h}, \\mathbf{c}\_{\\text{legal}}) > \\theta \\right\]  
+$$
+
+-   이 방식은 기존 모델의 거부 행동을 추가로 강화하거나, 기존의 거부 조건을 변경 및 재구성하는 데 효과적임을 확인함.
+
+✅ 모델 응답 도메인 제한(constraining response to one domain)
+
+<img width="1222" height="537" alt="Image" src="https://github.com/user-attachments/assets/cd7f05f3-1d3a-4db4-a20a-2feb63514458" /><br>
+
+-   특정 카테고리(예: 건강 상담)에 대해서만 응답하고 나머지 모든 카테고리에 대해서는 거부하도록 모델의 응답을 제한할 수 있음을 확인함 (Figure 9a 참고).
+-   논리적 조합과 조건 벡터의 **보완성(duality)** 을 활용하여, 원하는 한 가지 카테고리만 응답하고 다른 모든 카테고리를 거부하도록 설정할 수 있음을 보임.
+
+예를 들어, 건강 상담 카테고리에만 응답하고 나머지는 모두 거부하려면 아래 조건을 설정함:
+
+$$  
+f(\\mathbf{h}) = \\mathbf{1}\\left\[ \\cos(\\mathbf{h}, \\mathbf{c}\_{\\text{health}}) < \\theta \\right\]  
+$$
+
+-   이 설정은 학습 과정에서 보지 않은 새로운 카테고리(금융, 도박 등)에 대해서도 효과적으로 적용됨을 확인함. 즉, 모델이 특정 주제 외의 모든 새로운 입력에 대해서도 자동으로 거부함을 입증함.
+
+✅ 의미적 거리(semantic distance)와 성능의 연관성 분석
+
+-   특정 도메인으로 모델 응답을 제한하는 효과는 해당 도메인의 **의미적 독립성(semantic distinctiveness)** 과 관련이 있음을 확인함.
+-   예를 들어, 증오 표현(hate speech)처럼 다른 카테고리들과 의미적 거리가 먼 카테고리로 응답을 제한할 때 더욱 효과적으로 동작함 (Figure 9b-9c 참고).
+-   이는 각 카테고리 간 의미적 차이를 Sentence Transformer의 임베딩 코사인 거리로 측정하여 입증한 결과임.
+
+✅ 프롬프팅 대비 CAST의 효과성
+
+-   기존 프롬프팅(prompting) 방식은 CAST와 달리 효과적이지 않음 (Figure 9c 빨간 점선과의 비교).
+-   CAST가 프롬프팅보다 월등히 높은 성능을 보였으며, 보다 정교하고 세밀한 제어가 가능함을 확인함.
+
+> "Prompting alone fails to provide an effective alternative for several reasons. Unlike CAST, prompting lacks the ability to forcefully condition the model."  
+> → (프롬프팅 방식은 CAST와 달리 모델을 강력히 제어하는 능력이 부족하며, 따라서 CAST가 더 효과적임.)
+
+---
+
+## 4\. Limitations
+
+1.  행동 벡터의 품질에 의존: 거부 벡터 $\\mathbf{v}$가 불완전하면 조건이 맞아도 거부가 약할 수 있음.
+2.  조건 간 간섭: 조건 벡터 간 중복 시, 거부 효과가 상쇄될 수 있음. 다중 조건 간 orthogonalization과 같은 기법 적용 필요.
+    -   "It’s also possible to completely change the original model’s refusal map by simultaneously removing existing refusal directions and inducing new ones (Figure 8b) through multiple rules.  
+        However, we generally find that this approach can **reduce the effectiveness of induced refusal**  
+        **directions, as certain suppressing conditions may conflict with newly induced refusal conditions.**"
