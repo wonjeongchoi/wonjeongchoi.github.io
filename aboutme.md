@@ -4,6 +4,8 @@ title: About me
 subtitle: Welcome to my Personal Website.
 ---
 
+![aboutme](assets/img/aboutme.jpg)
+
 
 ### **Wonjeong Choi**
 Ph.D. Candidate, School of Electrical Engineering (EE), KAIST \
