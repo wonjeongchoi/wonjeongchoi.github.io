@@ -5,16 +5,15 @@ subtitle: Welcome to my Personal Website.
 ---
 
 <div style="display: flex; align-items: center; gap: 20px;">
-  <img src="/assets/img/aboutme.jpg" width="300" height="300" style="border-radius: 10px;">
+  <img src="/assets/img/aboutme.jpg" width="250" height="250" style="border-radius: 10px;">
 
   <div>
     <h3><strong>Wonjeong Choi</strong></h3>
-    <p>Ph.D. Candidate, School of Electrical Engineering (EE), KAIST<br>
-    <strong>Research Interest:</strong> Trustworthy AI & Transfer Learning (for LLMs, MLLMs)<br>
-    <strong>E-mail:</strong> your.email@kaist.ac.kr</p>
+    <p>Ph.D. Candidate, KAIST EE<br>
+    <strong>Research Interest:</strong> Trustworthy AI, LLM Safety, Transfer Learning<br>
+    <strong>E-mail:</strong> dnjswjd5457 at kaist.ac.kr</p>
   </div>
 </div>
-
 
 ---
 
