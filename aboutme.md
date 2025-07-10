@@ -4,8 +4,8 @@ title: About me
 subtitle: Welcome to my Personal Website.
 ---
 
-<div style="display: flex; align-items: center; gap: 20px;">
-  <img src="/assets/img/aboutme2.jpg" width="270" height="270" style="border-radius: 10px;">
+<div style="text-align : center;">
+     <img src="/assets/img/aboutme2.jpg" width="270" height="270">
 </div>
 
 <h3><strong>Wonjeong Choi</strong></h3>
