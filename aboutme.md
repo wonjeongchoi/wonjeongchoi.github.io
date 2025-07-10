@@ -9,6 +9,9 @@ subtitle: Welcome to my Personal Website.
 </div>
 
 <h3 style="text-align: center;"><strong>Wonjeong Choi</strong></h3>
+
+---
+
 <p>Ph.D. Candidate, KAIST EE<br>
 <strong>Research Interest:</strong> Trustworthy AI, LLM Safety, Transfer Learning<br>
 <strong>E-mail:</strong> dnjswjd5457 (at) kaist.ac.kr</p>
