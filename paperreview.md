@@ -4,8 +4,6 @@ title: "Paper Review"
 ---
 
 # LLM Safety 
-: Hallucination Mitigation, Truthfulness
-
 
 <style>
   .pr-list {
