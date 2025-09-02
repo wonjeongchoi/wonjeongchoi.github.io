@@ -3,93 +3,81 @@ layout: page
 title: "Paper Review"
 ---
 
-<h1>Paper Review</h1>
+<h1>📝 Paper Review</h1>
 
 <style>
-  /* 간단한 카드형 그리드 스타일 */
   .pr-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 18px;
+    gap: 16px;
     margin-top: 1rem;
   }
   .pr-card {
     border: 1px solid #e5e7eb;
     border-radius: 14px;
-    overflow: hidden;
     background: #fff;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
     transition: transform .12s ease, box-shadow .12s ease;
   }
   .pr-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 22px rgba(0,0,0,.06);
   }
-  .pr-thumb {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    background: #f3f4f6;
-  }
-  .pr-body {
-    padding: 14px 14px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
   .pr-title {
+    margin: 0;
     font-size: 1.05rem;
     font-weight: 700;
-    margin: 0;
-    line-height: 1.3;
+    line-height: 1.35;
   }
-  .pr-meta {
-    font-size: .9rem;
+  .pr-title a {
+    text-decoration: none;
+  }
+  .pr-subtitle {
+    margin: 0;
+    font-size: .95rem;
     color: #6b7280;
   }
-  .pr-excerpt {
-    font-size: .95rem;
-    color: #374151;
-    margin: 4px 0 0;
+  .pr-meta {
+    margin-top: 2px;
+    font-size: .85rem;
+    color: #6b7280;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
-  .pr-readmore {
-    margin-top: auto;
-    padding: 0 14px 14px;
-  }
-  .pr-readmore a {
-    font-weight: 600;
-    text-decoration: none;
+  .pr-tag {
+    display: inline-block;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: .8rem;
+    background: #f9fafb;
   }
 </style>
 
-{% comment %}
-  paperreview 카테고리의 포스트만 모아오기
-{% endcomment %}
 {% assign reviews = site.posts | where_exp:"p","p.categories contains 'paperreview'" %}
 
 <div class="pr-grid">
   {% for post in reviews %}
-    {% assign thumb = post.thumbnail | default: post.image | default: post.cover | default: "/assets/img/reviews/default-thumb.jpg" %}
-    {% assign summary = post.description | default: post.excerpt | strip_html | truncate: 150 %}
+    {% assign sub = post.subtitle | default: post.sub_title | default: post.tagline %}
     <article class="pr-card">
-      <a href="{{ post.url | relative_url }}" aria-label="{{ post.title }}">
-        <img class="pr-thumb" src="{{ thumb | relative_url }}" alt="{{ post.title }}">
-      </a>
-      <div class="pr-body">
-        <h2 class="pr-title">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        </h2>
-        <div class="pr-meta">
-          {{ post.date | date: "%Y-%m-%d" }}
-          {% if post.tags and post.tags.size > 0 %}
-            • {{ post.tags | join: ", " }}
-          {% endif %}
-        </div>
-        <p class="pr-excerpt">{{ summary }}</p>
-      </div>
-      <div class="pr-readmore">
-        <a href="{{ post.url | relative_url }}">Read more →</a>
+      <h2 class="pr-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
+      {% if sub %}
+        <p class="pr-subtitle">{{ sub }}</p>
+      {% endif %}
+
+      <div class="pr-meta">
+        <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+        {% if post.tags and post.tags.size > 0 %}
+          {% for t in post.tags %}
+            <span class="pr-tag">#{{ t }}</span>
+          {% endfor %}
+        {% endif %}
       </div>
     </article>
   {% endfor %}
