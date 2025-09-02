@@ -3,7 +3,7 @@ layout: page
 title: "Paper Review"
 ---
 
-<h1>Paper Reviews</h1>
+<h1>Paper Review</h1>
 
 <ul>
   {% for post in site.categories.paperreview %}
