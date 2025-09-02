@@ -23,7 +23,7 @@ navbar-links:
   About Me: "aboutme"
   Publications: "publications"
   # Author's home: "https://deanattali.com"
-  Projects: "aboutme"
+  Projects: "projects"
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
