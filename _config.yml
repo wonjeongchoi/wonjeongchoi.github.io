@@ -29,7 +29,7 @@ navbar-links:
   #   - Beautiful Jekyll: "https://beautifuljekyll.com"
   #   - Learn markdown: "https://www.markdowntutorial.com/"
   Paper Review:
-    - LLM Safety: "paperreview"
+    - LLM Safety: "review_llmsafety"
     # - Learn markdown: "https://www.markdowntutorial.com/"
 
 ################
