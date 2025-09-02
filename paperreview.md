@@ -3,7 +3,7 @@ layout: page
 title: "Paper Review"
 ---
 
-# 📝 Paper Review
+# LLM Safety (e.g., Hallucination, Truthfulness)
 
 <style>
   .pr-grid {
@@ -72,7 +72,6 @@ title: "Paper Review"
       {% endif %}
 
       <div class="pr-meta">
-        <span>{{ post.date | date: "%Y-%m-%d" }}</span>
         {% if post.tags and post.tags.size > 0 %}
           {% for t in post.tags %}
             <span class="pr-tag">#{{ t }}</span>
