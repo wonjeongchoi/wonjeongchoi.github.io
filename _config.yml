@@ -24,10 +24,13 @@ navbar-links:
   Publications: "publications"
   # Author's home: "https://deanattali.com"
   Projects: "projects"
-  Paper Review: "paperreview"
+  # Paper Review: "paperreview"
   # Resources:
   #   - Beautiful Jekyll: "https://beautifuljekyll.com"
   #   - Learn markdown: "https://www.markdowntutorial.com/"
+  Paper Review:
+    - LLM Safety: "paperreview"
+    # - Learn markdown: "https://www.markdowntutorial.com/"
 
 ################
 # --- Logo --- #
