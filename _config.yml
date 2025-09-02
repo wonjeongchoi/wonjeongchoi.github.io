@@ -24,9 +24,10 @@ navbar-links:
   Publications: "publications"
   # Author's home: "https://deanattali.com"
   Projects: "projects"
-  Resources:
-    - Beautiful Jekyll: "https://beautifuljekyll.com"
-    - Learn markdown: "https://www.markdowntutorial.com/"
+  Paper Reviews: "paperreviews"
+  # Resources:
+  #   - Beautiful Jekyll: "https://beautifuljekyll.com"
+  #   - Learn markdown: "https://www.markdowntutorial.com/"
 
 ################
 # --- Logo --- #
