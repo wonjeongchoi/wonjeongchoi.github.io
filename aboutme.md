@@ -13,8 +13,13 @@ subtitle: Welcome to my Personal Website.
 ---
 
 <p>Ph.D. Candidate, KAIST EE<br>
-<strong>Research Interest:</strong> Post-Training Strategies, Trustworthy AI, LLM Safety, Transfer Learning<br>
-<strong>E-mail:</strong> dnjswjd5457 (at) kaist.ac.kr</p>
+<strong>Research Interest:</strong></p>
+<ul>
+  <li>Post-Training Strategies</li>
+  <li>Trustworthy AI & LLM Safety</li>
+  <li>Transfer Learning</li>
+</ul>
+<p><strong>E-mail:</strong> dnjswjd5457 (at) kaist.ac.kr</p>
 
 ---
 
