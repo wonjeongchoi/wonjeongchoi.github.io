@@ -14,6 +14,6 @@ subtitle:
   
 - Active Learning Algorithms for Efficient Utilization of Unlabeled Defense Data (2021 -- Present) <br> Center for Applied Research in Artificial Intelligence (CARAI) of ADD
   
-- Communication and Computation Efficient Personalization of Foundation Models in Federated Learning Environment (2024 -- Present) <br> NAVER-Intel-KAIST AI Joint Research Center (NIK AI Research Center)
+- Communication and Computation Efficient Personalization of Foundation Models in Federated Learning Environment (2024) <br> NAVER-Intel-KAIST AI Joint Research Center (NIK AI Research Center)
   
 - AI solutions for NAND distribution data (2024) <br> SK Hynix Project
