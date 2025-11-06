@@ -28,9 +28,9 @@ navbar-links:
   # Resources:
   #   - Beautiful Jekyll: "https://beautifuljekyll.com"
   #   - Learn markdown: "https://www.markdowntutorial.com/"
-  Paper Review:
-    - LLM: "paperreview"
-    - Physical AI: "paperreview"
+  Paper Review: "paperreview"
+    # - LLM: "paperreview"
+    # - Physical AI: "paperreview"
     # - Learn markdown: "https://www.markdowntutorial.com/"
 
 ################
