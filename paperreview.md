@@ -3,8 +3,6 @@ layout: page
 title: "Paper Review"
 ---
 
-# LLM Safety 
-
 <style>
   .pr-list {
     display: flex;
