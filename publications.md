@@ -7,12 +7,7 @@ subtitle:
 
 | Thumbnail | Description |
 | :--- | :--- |
-| <img src="/assets/img/pub/iclr2026_paper.png" width="1200"> | **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *The Thirteenth International Conference on Learning Representations (**ICLR**), 2026* <br>  [**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) [**[Code]**](https://github.com/...) <br> <br> <details>
-  <summary style="cursor: pointer;">🔍 <b>Click to see TL;DR</b></summary>
-  <p style="margin-top: 10px; font-style: italic;">
-    To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask)...
-  </p>
-</details> |
+| <img src="/assets/img/pub/iclr2026_paper.png" width="220" style="border-radius: 5px;"> | **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *The Thirteenth International Conference on Learning Representations (**ICLR**), 2026* <br> [**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) &nbsp; [**[Code]**](https://github.com/...) <br><br> <details><summary style="cursor: pointer; color: #007bff;"><b>🔍 Click to see TL;DR</b></summary><p style="margin-top: 10px; font-style: italic; color: #555;">To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask), a method that learns a set of binary masks that selectively deactivate model parameters vulnerable to adversarial perturbations.</p></details> |
 
 
 
