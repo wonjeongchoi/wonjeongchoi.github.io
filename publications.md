@@ -4,7 +4,7 @@ title: Publications
 subtitle: 
 ---
 
-- Improving Adversarial Robustness for Vision-Language Models (working title). <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> (under review, 2025)
+- Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models. <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> In The Thirteenth International Conference on Learning Representations (ICLR), Apr. 2026. [link](https://openreview.net/forum?id=kzGkXpW4FT) 
 
 - Adaptive Energy Alignment for Accelerating Test-Time Adaptation. <br> **Choi, W.**, Kim, D. Y., Park, J., Lee, J., Park, Y., Han, D. J., & Moon, J. <br> In The Thirteenth International Conference on Learning Representations (ICLR), Apr. 2025.
 
