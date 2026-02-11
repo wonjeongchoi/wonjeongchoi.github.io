@@ -4,26 +4,17 @@ title: Publications
 subtitle: 
 ---
 
-<!--
+
 ### Selected Publications
 
 | Thumbnail | Description |
 | :--- | :--- |
-| <img src="/assets/img/pub/iclr2026_paper.png" width="200"> | **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *In ICLR 2026* <br> [**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) [**[Code]**](https://github.com/...) <br> **TL;DR:** To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask), a method that learns a set of binary masks that selectively deactivate model parameters vulnerable to adversarial perturbations. |
--->
-
-
-- **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.**
-  <br>
-  <img src="/assets/img/pub/iclr2026_paper.png" align="left" width="150" style="margin-right: 20px;">
-  **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J.
-  <br>
-  *The Thirteenth International Conference on Learning Representations (ICLR), 2026.*
-  <br>
-  [**[Link]**](https://openreview.net/forum?id=kzGkXpW4FT) [**[Project Page]**](https://...)
-  <br>
-  **TL;DR:** Adversarial Mask Tuning을 통해 VLM의 Few-shot 성능과 강건성을 동시에 개선하는 방법론 제안.
-  <br style="clear: both;"> ---
+| <img src="/assets/img/pub/iclr2026_paper.png" width="200"> | 
+**Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> 
+**Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *In ICLR 2026* <br> 
+[**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) 
+[**[Code]**](https://github.com/...) <br> 
+**TL;DR:** To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask), a method that learns a set of binary masks that selectively deactivate model parameters vulnerable to adversarial perturbations. |
 
 
 - Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models. <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> In The Thirteenth International Conference on Learning Representations (ICLR), Apr. 2026. [link](https://openreview.net/forum?id=kzGkXpW4FT)
