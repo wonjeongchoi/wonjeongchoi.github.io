@@ -9,7 +9,7 @@ subtitle:
 
 | Thumbnail | Description |
 | :--- | :--- |
-| <img src="/assets/img/pub/iclr2026_paper.png" width="200"> | **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *In ICLR 2026* <br>  [**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) [**[Code]**](https://github.com/...) <br> **TL;DR:** To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask), a method that learns a set of binary masks that selectively deactivate model parameters vulnerable to adversarial perturbations. |
+| <img src="/assets/img/pub/iclr2026_paper.png" width="1000"> | **Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models.** <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> *In ICLR 2026* <br>  [**[Paper]**](https://openreview.net/forum?id=kzGkXpW4FT) [**[Code]**](https://github.com/...) <br> **TL;DR:** To enhance the robustness of VLMs, we propose Adversarial Mask Tuning (AdvMask), a method that learns a set of binary masks that selectively deactivate model parameters vulnerable to adversarial perturbations. |
 
 
 - Identifying Robust Neural Pathways: Few-Shot Adversarial Mask Tuning for Vision-Language Models. <br> **Choi, W.**, Ryu, S., Lee, J., Han, D. J., & Moon, J. <br> In The Thirteenth International Conference on Learning Representations (ICLR), Apr. 2026. [link](https://openreview.net/forum?id=kzGkXpW4FT)
