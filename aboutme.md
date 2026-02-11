@@ -28,7 +28,7 @@ I am a Ph.D. student in [School of Electrical Engineering (EE), KAIST](https://e
 
 I received my Ph.D. degree from [School of Electrical Engineering (EE), KAIST](https://ee.kaist.ac.kr/en/), under the supervision of Prof. Jaekyun Moon (in [MoonLab](http://moonlab.kaist.ac.kr)\). I have been working on **hardware-friendly and robust ML algorithms** for developing trustworthy AI systems in safety-critical applications (e.g., automotive/medical/manufactorying systems). In particular, I have explored the following areas:
 
-1) **Multi-modal Foundation Models**: Vision-Language (VLM), Vision-Language-Action (VaLA), Vision-Language-Navigation (VLN)<br>
+1) **Multi-modal Foundation Models**: Vision-Language (VLM), Vision-Language-Action (VLA), Vision-Language-Navigation (VLN)<br>
 2) **Post-Training Strategies**: Transfer Learning, Few-Shot Learning, Test-Time Adaptation, Mask Tuning<br>
 3) **ML Robustness**: Domain Adaptation/Generalization, Model Calibration, Adversarial Attack<br>
 
